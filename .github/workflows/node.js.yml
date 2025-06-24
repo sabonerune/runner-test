@@ -32,3 +32,4 @@ jobs:
         node-version: latest
         architecture: ${{matrix.architecture}}
     - run: node --version
+    - run: node --eval "console.log(process.arch)"
