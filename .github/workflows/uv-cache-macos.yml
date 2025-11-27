@@ -17,7 +17,7 @@ jobs:
       - name: Build and Install pyyaml
         run: |
           uv cache prune
-          uv sync -v
+          uv sync -vv
 
   test:
     needs: init
@@ -33,7 +33,7 @@ jobs:
           enable-cache: true
       - name: Build and Install pyyaml
         run: |
-          uv sync -v
+          uv sync -vv
       - name: Run Test
         run: |
           uv run python -c "import yaml"
