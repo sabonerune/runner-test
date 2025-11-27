@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-14, ubuntu-22.04]
+        os: [macos-15, ubuntu-24.04]
     steps:
       - uses: astral-sh/setup-uv@v7
         with:
@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15, ubuntu-24.04]
+        os: [macos-14, ubuntu-22.04]
     steps:
       - uses: astral-sh/setup-uv@v7
         with:
@@ -32,7 +32,7 @@ jobs:
       - name: Build and Install pyyaml
         run: |
           uv venv --python 3.11
-          uv pip install pyworld
+          uv pip install pyworld setuptools
       - name: Run Test
         run: |
           uv run python -c "import pyworld"
