@@ -15,7 +15,7 @@ jobs:
           enable-cache: true
       - name: Build and Install pyyaml
         run: |
-          uv venv 3.11
+          uv venv --python 3.11
           uv pip install git+https://github.com/yaml/pyyaml@6.0.3
 
   test:
@@ -30,7 +30,7 @@ jobs:
           enable-cache: true
       - name: Build and Install pyyaml
         run: |
-          uv venv 3.11
+          uv venv --python 3.11
           uv pip install git+https://github.com/yaml/pyyaml@6.0.3
       - name: Run Test
         run: |
