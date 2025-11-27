@@ -1,0 +1,37 @@
+name: uv cache CI
+
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  init:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-14, ubuntu-22.04]
+    steps:
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - name: Build and Install pyyaml
+        run: |
+          uv venv 3.11
+          uv pip install git+https://github.com/yaml/pyyaml@6.0.3
+
+  test:
+    needs: init
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-15, ubuntu-24.04]
+    steps:
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - name: Build and Install pyyaml
+        run: |
+          uv venv 3.11
+          uv pip install git+https://github.com/yaml/pyyaml@6.0.3
+      - name: Run Test
+        run: |
+          uv run python -c "import pyyaml"
