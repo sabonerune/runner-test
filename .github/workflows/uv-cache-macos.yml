@@ -22,6 +22,7 @@ jobs:
     needs: init
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-15, ubuntu-24.04]
     steps:
@@ -34,4 +35,4 @@ jobs:
           uv pip install git+https://github.com/yaml/pyyaml@6.0.3
       - name: Run Test
         run: |
-          uv run python -c "import pyyaml"
+          uv run python -c "import yaml"
