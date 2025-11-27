@@ -16,7 +16,7 @@ jobs:
       - name: Build and Install pyyaml
         run: |
           uv venv --python 3.11
-          uv pip install pyworld
+          uv add pyworld setuptools
 
   test:
     needs: init
@@ -32,7 +32,7 @@ jobs:
       - name: Build and Install pyyaml
         run: |
           uv venv --python 3.11
-          uv pip install pyworld setuptools
+          uv add pyworld setuptools
       - name: Run Test
         run: |
           uv run python -c "import pyworld"
