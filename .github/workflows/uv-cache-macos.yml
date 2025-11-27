@@ -10,13 +10,13 @@ jobs:
       matrix:
         os: [macos-15, ubuntu-24.04]
     steps:
+      - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Build and Install pyyaml
         run: |
-          uv venv --python 3.11
-          uv add pyworld setuptools
+          uv sync
 
   test:
     needs: init
@@ -26,13 +26,13 @@ jobs:
       matrix:
         os: [macos-14, ubuntu-22.04]
     steps:
+      - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - name: Build and Install pyyaml
         run: |
-          uv venv --python 3.11
-          uv add pyworld setuptools
+          uv sync
       - name: Run Test
         run: |
-          uv run python -c "import pyworld"
+          uv run python -c "import yaml"
