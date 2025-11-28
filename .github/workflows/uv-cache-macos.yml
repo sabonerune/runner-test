@@ -35,9 +35,16 @@ jobs:
         os: [macos-14, ubuntu-22.04]
     steps:
       - uses: actions/checkout@v6
+      - name: Get cache suffix
+        if: ${{ runner.os == 'Linux' }}
+        id: cache-suffix
+        run: |
+          $(gcc --print-file-name=libc.so.6) | \
+            awk 'NR==1 {print "CACHE_SUFFIX=glibc-" $NF}' >> "$GITHUB_OUTPUT"
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
+          cache-suffix: ${{ steps.cache-suffix.outputs.CACHE_SUFFIX }}
       - name: Build and Install pyyaml
         run: |
           uv sync -vv
