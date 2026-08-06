@@ -1,0 +1,31 @@
+name: Test onnxrutime otool
+
+on:
+  - push
+
+jobs:
+  test-onnxruntime:
+    runs-on: macos-latest
+
+    steps:
+      - name: Download voicevox-onnxruntime
+        run: |
+          curl https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-osx-arm64-1.23.2.tgz | \
+          tar -xzf -
+
+      - name: Download onnxruntime
+        run: |
+          curl https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-arm64-1.23.2.tgz | \
+          tar -xzf -
+
+      - name: show file list
+        run: |
+          ls --recursive
+
+      - name: Show voicevox-onnxruntime dump data
+        run: |
+          otool -l voicevox_onnxruntime-osx-arm64-1.23.2/lib/libvoicevox_onnxruntime.1.23.2.dylib
+
+      - name: Show voicevox-onnxruntime dump data
+        run: |
+          otool -l onnxruntime-osx-arm64-1.23.2/lib/libonnxruntime.1.23.2.dylib
