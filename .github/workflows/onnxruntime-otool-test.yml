@@ -5,23 +5,23 @@ on:
 
 jobs:
   test-onnxruntime:
-    runs-on: macos-latest
+    runs-on: macos-15-intel
 
     steps:
       - name: Download voicevox-onnxruntime
         run: |
-          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-osx-arm64-1.23.2.tgz | \
+          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-osx-x86_64-1.23.2.tgz | \
           tar -xzf -
 
       - name: Download onnxruntime
         run: |
-          curl -fsSL https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-arm64-1.23.2.tgz | \
+          curl -fsSL https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-x86_64-1.23.2.tgz | \
           tar -xzf -
 
       - name: Show voicevox-onnxruntime dump data
         run: |
-          otool -l ./voicevox_onnxruntime-osx-arm64-1.23.2/lib/libvoicevox_onnxruntime.1.23.2.dylib
+          otool -l ./voicevox_onnxruntime-osx-x86_64-1.23.2/lib/libvoicevox_onnxruntime.1.23.2.dylib
 
-      - name: Show voicevox-onnxruntime dump data
+      - name: Show onnxruntime dump data
         run: |
-          otool -l ./onnxruntime-osx-arm64-1.23.2/lib/libonnxruntime.1.23.2.dylib
+          otool -l ./onnxruntime-osx-x86_64-1.23.2/lib/libonnxruntime.1.23.2.dylib
