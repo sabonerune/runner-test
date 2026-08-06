@@ -18,10 +18,6 @@ jobs:
           curl https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-arm64-1.23.2.tgz | \
           tar -xzf -
 
-      - name: show file list
-        run: |
-          ls --recursive
-
       - name: Show voicevox-onnxruntime dump data
         run: |
           otool -l voicevox_onnxruntime-osx-arm64-1.23.2/lib/libvoicevox_onnxruntime.1.23.2.dylib
