@@ -15,7 +15,7 @@ jobs:
 
       - name: Download onnxruntime
         run: |
-          curl -fsSL https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-osx-x86_64-1.23.2.tgz | \
+          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.0/onnxruntime-osx-x86_64-1.23.2.tgz | \
           tar -xzf -
 
       - name: Show voicevox-onnxruntime dump data
