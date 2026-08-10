@@ -12,37 +12,38 @@ jobs:
         uses: Jimver/cuda-toolkit@v0.2.36
         with:
           cuda: 12.8.1
+          sub-packages: '["cuobjdump"]'
           method: network
 
       - name: Download voicevox-onnxruntime
         run: |
-          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-osx-x86_64-1.23.2.tgz | \
-          tar -xz -C voicevox_onnxruntime -f -
+          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-linux-x64-cuda-1.23.2.tgz | \
+          tar -xzf -
 
       - name: Download org onnxruntime
         run: |
           curl -fsSL https://github.com/microsoft/onnxruntime/releases/download/v1.23.2/onnxruntime-linux-x64-gpu-1.23.2.tgz | \
-          tar -xz -C onnxruntime -f -
+          tar -xzf -
 
       - name: Download private onnxruntime
         run: |
           curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.3/onnxruntime-linux-x64-cuda-1.23.2.tgz | \
-          tar -xz -C onnxruntime -f -
+          tar -xzf -
 
       - name: Show voicevox_onnxruntime dump data
         run: |
-          cuobjdump --list-elf voicevox_onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-elf voicevox_onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx voicevox_onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-ptx voicevox_onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
 
       - name: Show org_onnxruntime dump data
         run: |
-          cuobjdump --list-elf org_onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-elf onnxruntime-linux-x64-gpu-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx org_onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-ptx onnxruntime-linux-x64-gpu-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
 
       - name: Show org_onnxruntime dump data
         run: |
-          cuobjdump --list-elf onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-elf onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx onnxruntime/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-ptx onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
