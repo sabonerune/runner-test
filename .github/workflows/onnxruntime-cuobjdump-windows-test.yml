@@ -1,0 +1,41 @@
+name: Test onnxrutime cuobjdump windows
+
+on:
+  - push
+
+jobs:
+  test-onnxruntime:
+    runs-on: windows-latest
+
+    steps:
+      - name: Set up CUDA
+        uses: Jimver/cuda-toolkit@v0.2.36
+        with:
+          cuda: 12.8.1
+          sub-packages: '["cuobjdump"]'
+          method: network
+
+      - name: Download voicevox-onnxruntime
+        shell: bash
+        run: |
+          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-win-x64-cuda-1.23.2.tgz | \
+          tar -xzf -
+
+      - name: Download private onnxruntime
+        shell: bash
+        run: |
+          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.3/voicevox_onnxruntime-win-x64-cuda-1.23.2.tgz | \
+          tar -xzf -
+          ls -R .
+
+      - name: Show voicevox_onnxruntime dump data
+        run: |
+          cuobjdump --list-elf voicevox_onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll
+          echo "------"
+          cuobjdump --list-ptx voicevox_onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll
+
+      - name: Show org_onnxruntime dump data
+        run: |
+          cuobjdump --list-elf onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll
+          echo "------"
+          cuobjdump --list-ptx onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll

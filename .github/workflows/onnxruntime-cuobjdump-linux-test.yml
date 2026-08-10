@@ -1,4 +1,4 @@
-name: Test onnxrutime cuobjdump
+name: Test onnxrutime cuobjdump linux
 
 on:
   - push
