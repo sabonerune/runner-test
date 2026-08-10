@@ -24,7 +24,7 @@ jobs:
       - name: Download private onnxruntime
         shell: bash
         run: |
-          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.3/voicevox_onnxruntime-win-x64-cuda-1.23.2.tgz | \
+          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.3/onnxruntime-win-x64-cuda-1.23.2.tgz | \
           tar -xzf -
           ls -R .
 
