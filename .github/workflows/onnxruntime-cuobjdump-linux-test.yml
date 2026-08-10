@@ -38,12 +38,12 @@ jobs:
 
       - name: Show org_onnxruntime dump data
         run: |
-          cuobjdump --list-elf onnxruntime-linux-x64-gpu-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-elf onnxruntime-linux-x64-gpu-1.23.2/lib/libonnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx onnxruntime-linux-x64-gpu-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-ptx onnxruntime-linux-x64-gpu-1.23.2/lib/libonnxruntime_providers_cuda.so
 
       - name: Show org_onnxruntime dump data
         run: |
-          cuobjdump --list-elf onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-elf onnxruntime-linux-x64-cuda-1.23.2/lib/libonnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx onnxruntime-linux-x64-cuda-1.23.2/lib/libvoicevox_onnxruntime_providers_cuda.so
+          cuobjdump --list-ptx onnxruntime-linux-x64-cuda-1.23.2/lib/libonnxruntime_providers_cuda.so
