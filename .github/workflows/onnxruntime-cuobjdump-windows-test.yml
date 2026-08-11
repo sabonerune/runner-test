@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        default: sabonerune/onxruntime-builder
+        default: sabonerune/onnxruntime-builder
       tag:
         default: onnxruntime-1.23.2
 
@@ -31,7 +31,7 @@ jobs:
               exit 1
               ;;
           esac
-          repo=${{ inputs.repo || 'voicevox/onxruntime-builder' }}
+          repo=${{ inputs.repo || 'VOICEVOX/onnxruntime-builder' }}
           version=1.23.2
           tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
           release_url="https://github.com/$repo/releases/download/$tag"
