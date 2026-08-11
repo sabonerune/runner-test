@@ -1,11 +1,24 @@
-name: Test onnxrutime cuobjdump windows
+name: Test onnxrutime cuobjdump
 
 on:
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: repo
+      tag:
+        default: onnxruntime-1.23.2
+
+  push:
 
 jobs:
   test-onnxruntime:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Set up CUDA
@@ -15,27 +28,37 @@ jobs:
           sub-packages: '["cuobjdump"]'
           method: network
 
-      - name: Download voicevox-onnxruntime
-        shell: bash
+      - name: Download onnxruntime
         run: |
-          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-win-x64-cuda-1.23.2.tgz | \
-          tar -xzf -
+          case "$RUNNER_OS" in
+            Windows) os_tag=win ;;
+            Linux) os_tag=linux ;;
+            *)
+              echo 'unexpected runner' >&2
+              exit 1
+              ;;
+          esac
+          repo=${{ inputs.repo || 'sabonerune/onxruntime-builder' }}
+          version=1.23.2
+          tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
+          release_url="https://github.com/$repo/releases/download/$tag"
+          package_name="onnxruntime-$os_tag-x64-cuda-$version.tgz
 
-      - name: Download private onnxruntime
-        shell: bash
-        run: |
-          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.3/onnxruntime-win-x64-cuda-1.23.2.tgz | \
-          tar -xzf -
+          mkdir -p runtime
+          curl -fsSL "$release_url/$package_name" | \
+          tar -xz -C runtime -f -
           ls -R .
 
-      - name: Show voicevox_onnxruntime dump data
+      - name: Show org_onnxruntime dump data
+        if: ${{ runner.os == 'Windows'}}
         run: |
-          cuobjdump --list-elf voicevox_onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll
+          cuobjdump --list-elf runtime/lib/onnxruntime_providers_cuda.dll
           echo "------"
-          cuobjdump --list-ptx voicevox_onnxruntime-win-x64-cuda-1.23.2/lib/voicevox_onnxruntime_providers_cuda.dll
+          cuobjdump --list-ptx runtime/lib/onnxruntime_providers_cuda.dll
 
       - name: Show org_onnxruntime dump data
+        if: ${{ runner.os == 'Linux'}}
         run: |
-          cuobjdump --list-elf onnxruntime-win-x64-cuda-1.23.2/lib/onnxruntime_providers_cuda.dll
+          cuobjdump --list-elf runtime/lib/libonnxruntime_providers_cuda.so
           echo "------"
-          cuobjdump --list-ptx onnxruntime-win-x64-cuda-1.23.2/lib/onnxruntime_providers_cuda.dll
+          cuobjdump --list-ptx runtime/lib/libonnxruntime_providers_cuda.so
