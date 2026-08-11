@@ -41,7 +41,7 @@ jobs:
 
           mkdir -p runtime
           curl -fsSL "$download_url" | \
-          tar -xz -C runtime -f -
+          tar -xz -C runtime --strip-components 1 -f -
           ls -R .
 
       - name: Set up CUDA
