@@ -36,9 +36,11 @@ jobs:
           tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="onnxruntime-$os_tag-x64-cuda-$version.tgz"
+          download_url="$release_url/$package_name"
+          echo "$download_url"
 
           mkdir -p runtime
-          curl -fsSL "$release_url/$package_name" | \
+          curl -fsSL "$download_url" | \
           tar -xz -C runtime -f -
           ls -R .
 
