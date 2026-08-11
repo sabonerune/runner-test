@@ -21,15 +21,9 @@ jobs:
         shell: bash
 
     steps:
-      - name: Set up CUDA
-        uses: Jimver/cuda-toolkit@v0.2.36
-        with:
-          cuda: 12.8.1
-          sub-packages: '["cuobjdump"]'
-          method: network
-
       - name: Download onnxruntime
         run: |
+          echo "$RUNNER_OS"
           case "$RUNNER_OS" in
             Windows) os_tag=win ;;
             Linux) os_tag=linux ;;
@@ -38,6 +32,7 @@ jobs:
               exit 1
               ;;
           esac
+          echo "$os_tag"
           repo=${{ inputs.repo || 'voicevox/onxruntime-builder' }}
           version=1.23.2
           tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
@@ -49,6 +44,13 @@ jobs:
           curl -fsSL "$release_url/$package_name" | \
           tar -xz -C runtime -f -
           ls -R .
+
+      - name: Set up CUDA
+        uses: Jimver/cuda-toolkit@v0.2.36
+        with:
+          cuda: 12.8.1
+          sub-packages: '["cuobjdump"]'
+          method: network
 
       - name: Show org_onnxruntime dump data
         if: ${{ runner.os == 'Windows'}}
