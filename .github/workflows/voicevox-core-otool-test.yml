@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        default: VOICEVOX/voicevox_core
+        description: repo
       tag:
-        default: "0.16.4"
+        description: tag
   push:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
     steps:
       - name: Download core
         run: |
-          repo=${{ inputs.repo }}
-          tag=${{ inputs.tag }}
+          repo=${{ inputs.repo || 'VOICEVOX/voicevox_core' }}
+          tag=${{ inputs.tag || '0.16.4' }}
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="voicevox_core-osx-${{ matrix.architecture }}-$tag.zip"
           mkdir -p download
