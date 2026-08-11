@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        description: repo
+        default: sabonerune/onxruntime-builder
       tag:
         default: onnxruntime-1.23.2
 
@@ -38,11 +38,12 @@ jobs:
               exit 1
               ;;
           esac
-          repo=${{ inputs.repo || 'sabonerune/onxruntime-builder' }}
+          repo=${{ inputs.repo || 'voicevox/onxruntime-builder' }}
           version=1.23.2
           tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="onnxruntime-$os_tag-x64-cuda-$version.tgz
+          echo "$release_url/$package_name"
 
           mkdir -p runtime
           curl -fsSL "$release_url/$package_name" | \
