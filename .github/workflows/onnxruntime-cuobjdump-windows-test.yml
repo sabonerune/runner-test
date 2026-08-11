@@ -23,7 +23,6 @@ jobs:
     steps:
       - name: Download onnxruntime
         run: |
-          echo "$RUNNER_OS"
           case "$RUNNER_OS" in
             Windows) os_tag=win ;;
             Linux) os_tag=linux ;;
@@ -32,13 +31,11 @@ jobs:
               exit 1
               ;;
           esac
-          echo "$os_tag"
           repo=${{ inputs.repo || 'voicevox/onxruntime-builder' }}
           version=1.23.2
           tag=${{ inputs.tag || 'onnxruntime-1.23.2' }}
           release_url="https://github.com/$repo/releases/download/$tag"
-          package_name="onnxruntime-$os_tag-x64-cuda-$version.tgz
-          echo "$release_url/$package_name"
+          package_name="onnxruntime-$os_tag-x64-cuda-$version.tgz"
 
           mkdir -p runtime
           curl -fsSL "$release_url/$package_name" | \
