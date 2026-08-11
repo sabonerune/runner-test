@@ -28,7 +28,7 @@ jobs:
 
       - name: Show otool dump data
         run: |
-          find ./download -type f -exec sh -c '
+          find ./macos-${{ matrix.architecture }} -type f -exec sh -c '
             for f do
               if file "$f" | grep -q "Mach-O"; then
                 echo "=== $f ==="
