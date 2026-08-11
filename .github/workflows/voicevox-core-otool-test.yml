@@ -28,13 +28,14 @@ jobs:
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="voicevox_core-osx-${{ matrix.architecture }}-$tag.zip"
           mkdir -p download
+          mkdir -p voicevox_core
           curl -fsSL --retry 3 --retry-delay 5 -o "download/core.zip" "$release_url/$package_name"
-          7z x -tzip download/core.zip
+          7z x -tzip -ovoicevox_core download/core.zip
           ls -R .
 
       - name: Show otool dump data
         run: |
-          find ./macos-${{ matrix.architecture }} -type f -exec sh -c '
+          find ./voicevox_core -type f -exec sh -c '
             for f do
               if file "$f" | grep -q "Mach-O"; then
                 echo "=== $f ==="
