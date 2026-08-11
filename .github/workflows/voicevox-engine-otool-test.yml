@@ -23,6 +23,8 @@ jobs:
           package_name="voicevox_engine-macos-${{ matrix.architecture }}-$tag"
           mkdir -p download
           curl -fsSL --retry 3 --retry-delay 5 -o "download/list.txt" "$release_url/$package_url.7z.txt"
+          ls download
+          echo download/list.txt
           <download/list.txt xargs -I '%' curl -fL --retry 3 --retry-delay 5 -o "download/%" "$release_url/%"
           7z x "download/$(head -n1 download/list.txt)"
 
