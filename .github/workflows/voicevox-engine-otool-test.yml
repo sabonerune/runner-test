@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Download engine
         run: |
-          repo=VOICEVOX/voicevox_engine
-          tag=0.25.2
+          repo=sabonerune/voicevox_engine
+          tag=0.26.0-perview.0
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="voicevox_engine-macos-${{ matrix.architecture }}-$tag"
           mkdir -p download

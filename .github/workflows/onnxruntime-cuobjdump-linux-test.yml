@@ -1,7 +1,7 @@
 name: Test onnxrutime cuobjdump linux
 
 on:
-  - push
+  - workflow_dispatch
 
 jobs:
   test-onnxruntime:

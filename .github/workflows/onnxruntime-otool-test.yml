@@ -1,7 +1,7 @@
 name: Test onnxrutime otool
 
 on:
-  - push
+  - workflow_dispatch
 
 jobs:
   test-onnxruntime:
