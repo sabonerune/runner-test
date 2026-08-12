@@ -51,16 +51,16 @@ jobs:
           sub-packages: '["cuobjdump"]'
           method: network
 
-      - name: Show org_onnxruntime dump data
-        if: ${{ runner.os == 'Windows'}}
+      - name: Show onnxruntime dump data
         run: |
-          cuobjdump --list-elf runtime/lib/onnxruntime_providers_cuda.dll
+          case "$RUNNER_OS" in
+            Windows) libname=onnxruntime_providers_cuda.dll ;;
+            Linux) libname=libonnxruntime_providers_cuda.so ;;
+            *)
+              echo 'unexpected runner' >&2
+              exit 1
+              ;;
+          esac
+          cuobjdump --list-elf "runtime/lib/$libname"
           echo "------"
-          cuobjdump --list-ptx runtime/lib/onnxruntime_providers_cuda.dll
-
-      - name: Show org_onnxruntime dump data
-        if: ${{ runner.os == 'Linux'}}
-        run: |
-          cuobjdump --list-elf runtime/lib/libonnxruntime_providers_cuda.so
-          echo "------"
-          cuobjdump --list-ptx runtime/lib/libonnxruntime_providers_cuda.so
+          cuobjdump --list-ptx "runtime/lib/$libname"
