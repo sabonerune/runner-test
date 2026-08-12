@@ -7,7 +7,6 @@ on:
         default: sabonerune/onnxruntime-builder
       tag:
         default: onnxruntime-1.23.2
-
   push:
 
 jobs:
@@ -64,3 +63,5 @@ jobs:
           cuobjdump --list-elf "runtime/lib/$libname"
           echo "------"
           cuobjdump --list-ptx "runtime/lib/$libname"
+          echo "------"
+          cuobjdump --all-fatbin "runtime/lib/$libname"

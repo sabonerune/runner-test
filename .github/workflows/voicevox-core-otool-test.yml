@@ -7,7 +7,6 @@ on:
         description: repo
       tag:
         description: tag
-  push:
 
 jobs:
   test-onnxruntime:
