@@ -7,7 +7,6 @@ on:
         default: sabonerune/onnxruntime-builder
       tag:
         default: onnxruntime-1.23.2
-  push:
 
 jobs:
   test-onnxruntime:
