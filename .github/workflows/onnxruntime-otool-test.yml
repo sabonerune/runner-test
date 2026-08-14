@@ -1,27 +1,47 @@
 name: Test onnxrutime otool
 
 on:
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      repo:
+        default: sabonerune/onnxruntime-builder
+      tag:
+        default: onnxruntime-1.23.2-preview.0
+      version:
+        default: "1.23.2"
 
 jobs:
   test-onnxruntime:
-    runs-on: macos-15-intel
+    strategy:
+      matrix:
+        include:
+          - os: macos-26-intel
+            architecture: x86_64
+          - os: macos-latest
+            architecture: arm64
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Download voicevox-onnxruntime
-        run: |
-          curl -fsSL https://github.com/VOICEVOX/onnxruntime-builder/releases/download/voicevox_onnxruntime-1.23.2/voicevox_onnxruntime-osx-x86_64-1.23.2.tgz | \
-          tar -xzf -
-
       - name: Download onnxruntime
         run: |
-          curl -fsSL https://github.com/sabonerune/onnxruntime-builder/releases/download/onnxruntime-1.23.2-preview.0/onnxruntime-osx-x86_64-1.23.2.tgz | \
-          tar -xzf -
+          repo=${{ inputs.repo || 'sabonerune/onnxruntime-builder' }}
+          tag=${{ inputs.tag || 'onnxruntime-1.23.2-preview.0' }}
+          version=${{ inputs.version || '1.23.2' }}
+          release_url="https://github.com/$repo/releases/download/$tag"
+          package_name="onnxruntime-osx-${{ matrix.architecture }}-$version.tgz"
+          mkdir -p runtime
+          curl -fsSL --retry 3 --retry-delay 5 "$release_url/$package_name" \
+            | tar -xz -C runtime -f -
+          ls -R .
 
       - name: Show voicevox-onnxruntime dump data
         run: |
-          otool -l ./voicevox_onnxruntime-osx-x86_64-1.23.2/lib/libvoicevox_onnxruntime.1.23.2.dylib
-
-      - name: Show onnxruntime dump data
-        run: |
-          otool -l ./onnxruntime-osx-x86_64-1.23.2/lib/libonnxruntime.1.23.2.dylib
+          find ./runtime -type f -exec sh -c '
+            for f do
+              if file "$f" | grep -q "Mach-O"; then
+                echo "=== $f ==="
+                otool -l "$f" 2>/dev/null |
+                  grep -A 3 -E "LC_BUILD_VERSION|LC_VERSION_MIN_"
+              fi
+            done
+            ' sh {} +

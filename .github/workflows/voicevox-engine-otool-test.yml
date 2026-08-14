@@ -14,22 +14,22 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-15-intel
-            architecture: "x64"
-          - os: macos-14
-            architecture: "arm64"
+          - os: macos-26-intel
+            architecture: x64
+          - os: macos-latest
+            architecture: arm64
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Download engine
         run: |
-          repo=${{ inputs.repo }}
-          tag=${{ inputs.tag }}
+          repo=${{ inputs.repo || 'sabonerune/voicevox_engine' }}
+          tag=${{ inputs.tag || '0.26.0-preview.2' }}
           release_url="https://github.com/$repo/releases/download/$tag"
           package_name="voicevox_engine-macos-${{ matrix.architecture }}-$tag"
           mkdir -p download
           curl -fsSL --retry 3 --retry-delay 5 -o "download/list.txt" "$release_url/$package_name.7z.txt"
-          <download/list.txt xargs -I '%' curl -fL --retry 3 --retry-delay 5 -o "download/%" "$release_url/%"
+          <download/list.txt xargs -I '%' curl -fsSL --retry 3 --retry-delay 5 -o "download/%" "$release_url/%"
           7z x "download/$(head -n1 download/list.txt)"
 
       - name: Show otool dump data
